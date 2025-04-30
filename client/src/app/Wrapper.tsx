@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { Navbar } from "./(components)/Navbar";
-import { Sidebar } from "./(components)/Sidebar";
+import { Navbar } from "../../(components)/Navbar";
+import { Sidebar } from "../../(components)/Sidebar";
 import StoreProvider, { useAppSelector } from "./redux";
 export const DashBoardLayout = ({
   children,
@@ -23,10 +23,7 @@ export const DashBoardLayout = ({
           <Navbar />
         </nav>
 
-        <main className="flex-1 p-6 overflow-auto">
-          main
-          {children}
-        </main>
+        <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );

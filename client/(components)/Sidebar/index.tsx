@@ -3,7 +3,9 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import Image from "next/image";
 import { SubProject } from "./sub-project";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { setIsSidebarCollapsed } from "../../../state/index";
+import { setIsSidebarCollapsed } from "../../src/state/index";
+import { ThoughtsCard } from "../ThoughtsCard";
+import { useGetProjectsQuery } from "@/state/api";
 export function Sidebar() {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -12,8 +14,10 @@ export function Sidebar() {
   const closeSidebar = () => {
     dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   };
+  const { data: projects } = useGetProjectsQuery();
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-y-auto h-screen custom-scrollbar overflow-x-hidden ">
       <div className="flex items-center  justify-between px-6 py-4">
         <div className="flex items-center gap-2">
           <Image
@@ -39,7 +43,7 @@ export function Sidebar() {
             width={22}
             className="h-6 w-6"
           />
-          <p className="text-text-gray text-lg">Home</p>
+          <p className="text-text-gray text-base">Home</p>
         </button>
         <button className="flex items-center gap-3 ">
           <Image
@@ -49,7 +53,7 @@ export function Sidebar() {
             width={22}
             className="h-6 w-6"
           />
-          <p className="text-text-gray text-lg">Messages</p>
+          <p className="text-text-gray text-base">Messages</p>
         </button>
         <button className="flex items-center gap-3 ">
           <Image
@@ -59,7 +63,7 @@ export function Sidebar() {
             width={22}
             className="h-6 w-6"
           />
-          <p className="text-text-gray text-lg">Tasks</p>
+          <p className="text-text-gray text-base">Tasks</p>
         </button>
         <button className="flex items-center gap-3 ">
           <Image
@@ -69,7 +73,7 @@ export function Sidebar() {
             width={22}
             className="h-6 w-6"
           />
-          <p className="text-text-gray text-lg">Members</p>
+          <p className="text-text-gray text-base">Members</p>
         </button>
         <button className="flex items-center gap-3 ">
           <Image
@@ -79,13 +83,13 @@ export function Sidebar() {
             width={22}
             className="h-6 w-6"
           />
-          <p className="text-text-gray text-lg">Settings</p>
+          <p className="text-text-gray text-base">Settings</p>
         </button>
       </div>
       <div className="w-11/12 mx-2 bg-line-gray h-0.5"></div>
 
       <div className="w-full">
-        <button className="flex items-center justify-between w-full gap-3 px-2 py-4">
+        <button className="flex items-center justify-between w-full gap-3 px-2 py-2">
           <p className="text-text-gray font-bold text-sm">My Projects</p>
           <Image
             alt="projects"
@@ -97,10 +101,22 @@ export function Sidebar() {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 px-6 py-4">
-        <SubProject color="blue" title="HRMS" />
-        <SubProject color="blue" title="Vokal" />
-        <SubProject color="blue" title="Internal" />
+      <div className="flex flex-col  px-6">
+        {projects?.map((project) => {
+          return (
+            <SubProject
+              href={`/projects/${project.id}`}
+              key={project.id}
+              title={project.name}
+            />
+          );
+        })}
+        {/* <SubProject title="HRMS" />
+        <SubProject title="Vokal" />
+        <SubProject title="Internal" /> */}
+      </div>
+      <div className="flex flex-col p-2">
+        <ThoughtsCard />
       </div>
     </div>
   );

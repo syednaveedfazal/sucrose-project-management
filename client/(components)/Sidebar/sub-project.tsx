@@ -1,11 +1,21 @@
 import React from "react";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
-export function SubProject({ title, color }: { title: string; color: string }) {
+import { redirect } from "next/navigation";
+export function SubProject({ title, href }: { title: string; href: string }) {
+  const randomColor = `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0")}`;
   return (
-    <div className="flex items-center justify-between">
+    <div
+      className="flex items-center justify-between"
+      onClick={() => redirect(href)}
+    >
       <div className="flex items-center gap-4">
-        <div className={`rounded-full h-2 w-2 bg-${color}-700 `}></div>
+        <div
+          className={`rounded-full h-2 w-2 flex items-center  bg-[${randomColor}]`}
+          style={{ backgroundColor: randomColor }}
+        ></div>
         <p className="text-text-gray text-[1rem]">{title}</p>
       </div>
       <Accordion
